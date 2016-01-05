@@ -97,6 +97,7 @@ public class Feed {
 	
 	public void addTag(Tag tag) throws NotAllowedOperationException {
 		if ((tag != null && tag.getName() != null) && !tagList.containsKey(tag.getName())) {
+			tag.addAssignedFeed(this);
 			tagList.put(tag.getName(), tag);
 		} else {
 			throw new NotAllowedOperationException("No se puede asignar una etiqueta ya asignada.");
