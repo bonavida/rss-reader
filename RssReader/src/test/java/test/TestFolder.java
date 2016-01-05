@@ -1,18 +1,20 @@
 package test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import model.Folder;
-import model.Tag;
+import exceptions.NotAllowedOperationException;
 import model.Entry;
 import model.Feed;
-import exceptions.NotAllowedOperationException;
+import model.Folder;
+import model.Tag;
 
 public class TestFolder {
 	Folder folder;
@@ -205,7 +207,7 @@ public class TestFolder {
 		String feedName = "Meneame";
 		feed = new Feed(feedName, feedUrl);
 		String entryName = "¡Feliz 2016!";
-		Entry entry = new Entry(entryName, "AdminMeneame", "", false);
+		Entry entry = new Entry(entryName, "AdminMeneame", "", new Date(), false);
 		List<Entry> entryList = new ArrayList<Entry>();
 		entryList.add(entry);
 		
@@ -247,7 +249,7 @@ public class TestFolder {
 		String feedName = "Barrapunto";
 		feed = new Feed(feedName, feedUrl);
 		String entryName = "¡Feliz 2016!";
-		Entry entry = new Entry(entryName, "AdminBarrapunto", "", false);
+		Entry entry = new Entry(entryName, "AdminBarrapunto", "", new Date(), false);
 		
 		try {
 			folder.addFeed(feed);
@@ -269,7 +271,7 @@ public class TestFolder {
 		String feedName = "Barrapunto";
 		feed = new Feed(feedName, feedUrl);
 		String entryName = "¡Feliz 2016!";
-		Entry entry = new Entry(entryName, "AdminBarrapunto", "", true);
+		Entry entry = new Entry(entryName, "AdminBarrapunto", "", new Date(), true);
 		
 		try {
 			folder.addFeed(feed);
