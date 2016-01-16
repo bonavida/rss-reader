@@ -90,4 +90,15 @@ public class FeedManager {
 		}
 		
 	}
+	
+	public Feed getFeed(String feedName) {
+		List<Folder> folders = getFolderList();
+		for (Folder f : folders) {
+			Feed feed = f.getFeed(feedName);
+			if (feed != null) {
+				return feed;
+			}
+		}
+		return null;
+	}
 }

@@ -3,11 +3,15 @@ package controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import main.FeedManager;
+import model.Entry;
 import model.Feed;
 import model.Folder;
 import rss.RssReader;
@@ -17,8 +21,11 @@ public class RssOverviewController implements Initializable {
 	
 	@FXML
 	private TreeView<String> tree;
+	@FXML
+	private ListView<String> listView;
 	
 	private TreeItem<String> rootNode;
+	private ObservableList<String> items = FXCollections.observableArrayList();
 	private RssReader reader;
 	private FeedManager fm;
 	private Feed feed;
@@ -35,9 +42,11 @@ public class RssOverviewController implements Initializable {
 	
 	public void showFoldersAndFeeds() {
 		rootNode.setExpanded(true);
-		
+		Folder folder = new Folder("Tecnología");
 		try {
 			feed = reader.readFeed("http://www.microsiervos.com/index.xml");
+			fm.addFolder(folder);
+			fm.getFolder("Tecnología").addFeed(feed);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -48,16 +57,20 @@ public class RssOverviewController implements Initializable {
 		folderNode.getChildren().add(feedLeaf);
 		folderNode.setExpanded(true);
 		tree.setRoot(rootNode);
+		//listView.setItems(items);
 		//tree.setShowRoot(false);
 		
 		tree.getSelectionModel().selectedItemProperty()
         	.addListener((v, oldValue, newValue) -> {
-        		if (newValue != null)
-        			// TODO
-        			// Buscar en el FeedManager el feed a partir del nombre y hacer un getEntryList para que el listView muestre entradas
+        		if ((newValue != null) && (fm.getFeed(newValue.getValue()) != null)) {       			
+        			Feed feed = fm.getFeed(newValue.getValue());
+        			items = FXCollections.observableArrayList();
+        			listView.setItems(items);
+        			for (Entry entry : feed.getEntryList())
+        				items.add(entry.getTitle());
         			System.out.println(newValue.getValue());
-        	});
-		
+        		}
+        	});	
 	}
 	
 	public void setMain(Main man) {
