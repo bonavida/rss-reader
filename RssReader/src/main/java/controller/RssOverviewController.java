@@ -3,13 +3,18 @@ package controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Worker.State;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import main.FeedManager;
 import model.Entry;
 import model.Feed;
@@ -23,6 +28,8 @@ public class RssOverviewController implements Initializable {
 	private TreeView<String> tree;
 	@FXML
 	private ListView<String> listView;
+	@FXML
+	private WebView webView = new WebView();
 	
 	private TreeItem<String> rootNode;
 	private ObservableList<String> items = FXCollections.observableArrayList();
@@ -57,7 +64,7 @@ public class RssOverviewController implements Initializable {
 		folderNode.getChildren().add(feedLeaf);
 		folderNode.setExpanded(true);
 		tree.setRoot(rootNode);
-		//listView.setItems(items);
+		listView.setItems(items);
 		//tree.setShowRoot(false);
 		
 		tree.getSelectionModel().selectedItemProperty()
@@ -70,7 +77,15 @@ public class RssOverviewController implements Initializable {
         				items.add(entry.getTitle());
         			System.out.println(newValue.getValue());
         		}
-        	});	
+        	});
+		
+		listView.getSelectionModel().selectedItemProperty().addListener(
+		        (ObservableValue<? extends String> ov, String old_val, 
+		            String new_val) -> {
+		            	WebEngine webEngine = webView.getEngine();
+		            	Entry entry = fm.getEntry(new_val);
+		            	webEngine.loadContent(entry.getContent());     
+		    });
 	}
 	
 	public void setMain(Main man) {

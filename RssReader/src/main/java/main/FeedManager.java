@@ -5,10 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import exceptions.NotAllowedOperationException;
+import model.Entry;
 import model.Feed;
 import model.Folder;
 import model.Tag;
-import exceptions.NotAllowedOperationException;
 
 public class FeedManager {
 	private Map<String, Folder> folderList;
@@ -97,6 +98,19 @@ public class FeedManager {
 			Feed feed = f.getFeed(feedName);
 			if (feed != null) {
 				return feed;
+			}
+		}
+		return null;
+	}
+	
+	public Entry getEntry(String entryName) {
+		List<Folder> folders = getFolderList();
+		for (Folder f : folders) {
+			for(Feed feed : f.getFeedList()) {
+				Entry entry = feed.getEntry(entryName);
+				if (entry != null) {
+					return entry;
+				}
 			}
 		}
 		return null;
