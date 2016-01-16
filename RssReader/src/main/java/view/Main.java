@@ -42,10 +42,10 @@ public class Main extends Application {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("RssOverview.fxml"));
-            AnchorPane personOverview = (AnchorPane) loader.load();
+            AnchorPane rssOverview = (AnchorPane) loader.load();
 
-            // Set person overview into the center of root layout.
-            mainLayout.setCenter(personOverview);
+            // Set rss overview into the center of main layout.
+            mainLayout.setCenter(rssOverview);
             
             RssOverviewController controller = loader.getController();
             controller.setMain(this);

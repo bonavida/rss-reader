@@ -12,8 +12,8 @@ public class Feed {
 	private String name;
 	private String url;
 	private Folder folder;
-	private Map<String, Entry> entryList;
-	private Map<String, Tag> tagList;
+	private Map<String, Entry> entryList = new HashMap<String, Entry>();
+	private Map<String, Tag> tagList = new HashMap<String, Tag>();
 	
 	public Feed() {
 
@@ -23,8 +23,6 @@ public class Feed {
 		this.name = name;
 		this.url = url;
 		this.folder = new Folder();
-		this.entryList = new HashMap<String, Entry>();
-		this.tagList = new HashMap<String, Tag>();
 	}
 
 	public String getName() {		

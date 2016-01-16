@@ -6,7 +6,7 @@ import java.util.List;
 public class Tag {
 	
 	private String name;
-	private List<Feed> assignedFeedList;
+	private List<Feed> assignedFeedList = new ArrayList<Feed>();;
 	
 	public Tag() {
 		
@@ -14,7 +14,6 @@ public class Tag {
 	
 	public Tag(String name) {
 		this.name = name;
-		this.assignedFeedList = new ArrayList<Feed>();
 	}
 
 	public String getName() {

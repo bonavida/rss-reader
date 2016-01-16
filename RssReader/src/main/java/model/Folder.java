@@ -10,7 +10,7 @@ import exceptions.NotAllowedOperationException;
 public class Folder {
 
 	private String name;
-	private Map<String, Feed> feedList;
+	private Map<String, Feed> feedList = new HashMap<String, Feed>();;
 	
 	public Folder() {
 		
@@ -18,7 +18,6 @@ public class Folder {
 	
 	public Folder(String name) {
 		this.name = name;
-		this.feedList = new HashMap<String, Feed>();
 	}
 	
 	public String getName() {
