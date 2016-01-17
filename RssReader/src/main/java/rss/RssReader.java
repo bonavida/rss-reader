@@ -4,7 +4,6 @@ package rss;
 import com.sun.syndication.feed.synd.SyndFeed;
 
 import model.Feed;
-import rome.RssParser;
 
 public class RssReader {
 	private RssParser parser = new RssParser();

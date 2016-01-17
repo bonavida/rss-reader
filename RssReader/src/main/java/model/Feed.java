@@ -1,11 +1,13 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import exceptions.NotAllowedOperationException;
+import rss.CustomComparator;
 
 public class Feed {
 
@@ -54,6 +56,7 @@ public class Feed {
 		for(Entry e: this.entryList.values()){
 			list.add(e);
 		}
+		Collections.sort(list, new CustomComparator());
 		return list;
 	}
 	

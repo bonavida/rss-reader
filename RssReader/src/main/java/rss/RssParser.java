@@ -1,9 +1,10 @@
-package rome;
+package rss;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Collections;
 
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
@@ -73,9 +74,10 @@ public class RssParser {
 				entry.setContent(syndEntry.getDescription().getValue());
 				entry.setPublicationDate(syndEntry.getPublishedDate());
 				entry.setSeen(false);
-				
+
 				feed.addEntry(entry);
 			}
+		
 		} catch (NotAllowedOperationException e) {
 			System.out.println("Error adding an entry to the feed: " + e);
 		}
