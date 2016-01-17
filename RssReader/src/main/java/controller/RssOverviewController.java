@@ -84,7 +84,16 @@ public class RssOverviewController implements Initializable {
 		            String new_val) -> {
 		            	WebEngine webEngine = webView.getEngine();
 		            	Entry entry = fm.getEntry(new_val);
-		            	webEngine.loadContent(entry.getContent());     
+		            	if(entry!=null){
+		            		String html = "<h1>"+ entry.getTitle() +"</h1>";
+		            		html+= "<h3>"+entry.getAuthor()+"</h3>";
+		            		html+= "<h3>"+entry.getPublicationDate()+"</h3>";
+		            		html+= entry.getContent();
+		            		
+		            		webEngine.loadContent(html);    
+		            	}else{
+		            		webEngine.loadContent("<h2>Ha ocurrido un error</h2>");
+		            	}
 		    });
 	}
 	
