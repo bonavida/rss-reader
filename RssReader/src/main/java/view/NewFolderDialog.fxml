@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="140.0" prefWidth="300.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.40">
+   <children>
+      <Label layoutX="22.0" layoutY="56.0" text="Nombre" />
+      <TextField layoutX="86.0" layoutY="51.0" prefHeight="26.0" prefWidth="186.0" />
+      <HBox layoutX="131.0" layoutY="100.0" spacing="10.0">
+         <children>
+            <Button mnemonicParsing="false" text="Aceptar" />
+            <Button mnemonicParsing="false" text="Cancelar" />
+         </children>
+      </HBox>
+      <Label layoutX="24.0" layoutY="22.0" textFill="RED" />
+   </children>
+</AnchorPane>
