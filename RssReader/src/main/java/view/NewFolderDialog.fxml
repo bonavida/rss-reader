@@ -5,17 +5,16 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="140.0" prefWidth="300.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.40">
+<AnchorPane prefHeight="140.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.NewFolderDialogController">
    <children>
       <Label layoutX="22.0" layoutY="56.0" text="Nombre" />
-      <TextField layoutX="86.0" layoutY="51.0" prefHeight="26.0" prefWidth="186.0" />
+      <TextField fx:id="folderNameField" layoutX="86.0" layoutY="51.0" prefHeight="26.0" prefWidth="186.0" />
       <HBox layoutX="131.0" layoutY="100.0" spacing="10.0">
          <children>
-            <Button mnemonicParsing="false" text="Aceptar" />
-            <Button mnemonicParsing="false" text="Cancelar" />
+            <Button mnemonicParsing="false" onAction="#handleOk" text="Aceptar" />
+            <Button mnemonicParsing="false" onAction="#handleCancel" text="Cancelar" />
          </children>
       </HBox>
-      <Label layoutX="24.0" layoutY="22.0" textFill="RED" />
+      <Label fx:id="errorMessageLbl" layoutX="24.0" layoutY="22.0" textFill="RED" />
    </children>
 </AnchorPane>
