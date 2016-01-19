@@ -114,6 +114,7 @@ public class RssOverviewController implements Initializable {
 				folders.add(folder.getName());
 				TreeItem<String> folderNode = new TreeItem<String>(folder.getName());
 				rootNode.getChildren().add(folderNode);
+				nodeList.put(folder.getName(), folderNode);
 				folderNode.setExpanded(true);
 			} catch (Exception ex) {
 				ex.printStackTrace();
