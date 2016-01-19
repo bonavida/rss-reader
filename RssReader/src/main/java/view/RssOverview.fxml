@@ -58,5 +58,6 @@
         </items>
       </SplitPane>
       <Button layoutX="23.0" layoutY="1.0" mnemonicParsing="false" onAction="#handleNewFolder" text="+" />
+      <Button layoutX="137.0" layoutY="1.0" mnemonicParsing="false" onAction="#handleNewFeed" text="+" />
    </children>
 </AnchorPane>

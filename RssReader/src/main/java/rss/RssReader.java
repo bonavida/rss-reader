@@ -11,9 +11,13 @@ public class RssReader {
 	public RssReader() {
 	}
 	
-	public Feed readFeed(String URL) throws Exception {
-		SyndFeed feeder = parser.getSyndFeedFromUrl(URL);
-		Feed feed = parser.setFeedAttributes(feeder);
-		return feed;
+	public Feed readFeed(String URL) {
+		try {
+			SyndFeed feeder = parser.getSyndFeedFromUrl(URL);
+			Feed feed = parser.setFeedAttributes(feeder);
+			return feed;
+		} catch (Exception ex) {
+			return null;
+		}
 	}
 }

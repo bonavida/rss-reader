@@ -5,17 +5,17 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="180.0" prefWidth="341.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="180.0" prefWidth="341.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.NewFeedDialogController">
    <children>
       <Label layoutX="34.0" layoutY="37.0" text="Nombre" />
       <Label layoutX="34.0" layoutY="87.0" text="Carpeta" />
-      <TextField layoutX="125.0" layoutY="33.0" />
+      <TextField fx:id="feedNameField" layoutX="125.0" layoutY="33.0" />
       <HBox layoutX="171.0" layoutY="140.0" spacing="10.0">
          <children>
-            <Button mnemonicParsing="false" text="Aceptar" />
-            <Button mnemonicParsing="false" text="Cancelar" />
+            <Button mnemonicParsing="false" onAction="#handleOk" text="Aceptar" />
+            <Button mnemonicParsing="false" onAction="#handleCancel" text="Cancelar" />
          </children>
       </HBox>
-      <ComboBox layoutX="125.0" layoutY="82.0" prefHeight="26.0" prefWidth="171.0" />
+      <ComboBox fx:id="folderList" layoutX="125.0" layoutY="82.0" prefHeight="26.0" prefWidth="171.0" />
    </children>
 </AnchorPane>

@@ -2,8 +2,10 @@ package view;
 
 import java.io.IOException;
 
+import controller.NewFeedDialogController;
 import controller.NewFolderDialogController;
 import controller.RssOverviewController;
+import controller.UrlFeedDialogController;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +15,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import main.FeedManager;
+import model.Feed;
 import model.Folder;
 
 public class Main extends Application {
@@ -87,6 +90,75 @@ public class Main extends Application {
 		} catch (IOException ex) {
 			ex.printStackTrace();
 			return false;
+		}
+	}
+	
+	public Feed showNewFeedDialog() {
+		try {
+			Feed newFeed = showUrlFeedDialog();
+			if (newFeed != null) {
+				FXMLLoader loader = new FXMLLoader();
+	            loader.setLocation(Main.class.getResource("NewFeedDialog.fxml"));
+	            AnchorPane newFeedDialog = (AnchorPane) loader.load();
+	            
+	            Stage dialogStage = new Stage();
+	            dialogStage.setTitle("New Feed");
+	            dialogStage.initModality(Modality.WINDOW_MODAL);
+	            dialogStage.initOwner(primaryStage);
+	            Scene scene = new Scene(newFeedDialog);
+	            dialogStage.setScene(scene);
+	            
+	            NewFeedDialogController controller = loader.getController();
+	            controller.setDialogStage(dialogStage);
+	            controller.setMain(this);
+	            controller.setFeed(newFeed);          
+
+	            dialogStage.showAndWait();
+
+	            if (controller.isOkClicked()) {
+	            	return controller.getFeed();
+	            } else {
+	            	return null;
+	            }
+	            
+			} else {
+				return null;
+			}
+			
+		} catch (IOException ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
+	
+	public Feed showUrlFeedDialog() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("UrlFeedDialog.fxml"));
+            AnchorPane urlFeedDialog = (AnchorPane) loader.load();
+            
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("New Feed");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(urlFeedDialog);
+            dialogStage.setScene(scene);
+
+            UrlFeedDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setMain(this);
+            
+            dialogStage.showAndWait();
+            
+            if (controller.isOkClicked()) {
+            	return controller.getFeed();
+            } else {
+            	return null;
+            }
+            
+		} catch (IOException ex) {
+			ex.printStackTrace();
+			return null;
 		}
 	}
 	

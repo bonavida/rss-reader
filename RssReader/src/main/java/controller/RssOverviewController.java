@@ -1,13 +1,13 @@
 package controller;
 
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Worker.State;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
@@ -32,6 +32,7 @@ public class RssOverviewController implements Initializable {
 	private WebView webView = new WebView();
 	
 	private TreeItem<String> rootNode;
+	private Map<String, TreeItem<String>> nodeList = new HashMap<String, TreeItem<String>>();
 	private ObservableList<String> folders = FXCollections.observableArrayList();
 	private ObservableList<String> entries = FXCollections.observableArrayList();
 	private RssReader reader;
@@ -63,6 +64,7 @@ public class RssOverviewController implements Initializable {
 		TreeItem<String> folderNode = new TreeItem<String>(folder.getName());
 		TreeItem<String> feedLeaf = new TreeItem<String>(feed.getName());
 		rootNode.getChildren().add(folderNode);
+		nodeList.put(folder.getName(), folderNode);
 		folderNode.getChildren().add(feedLeaf);
 		folderNode.setExpanded(true);
 		tree.setRoot(rootNode);
@@ -101,7 +103,7 @@ public class RssOverviewController implements Initializable {
 		    });
 	}
 	
-	
+	@FXML
 	public void handleNewFolder() {
 		Folder folder = new Folder();
 		main.setFolders(folders);
@@ -119,7 +121,33 @@ public class RssOverviewController implements Initializable {
 		}
 		
 	}
+	
+	@FXML
+	public void handleDeleteFolder() {
+		
+	}
+	
+	@FXML
+	public void handleNewFeed() {
+		main.setFolders(folders);
+		main.setFeedManager(fm);
+		Feed feed = main.showNewFeedDialog();
+		if (feed != null) {
+			try {
+				fm.getFolder(feed.getFolder().getName()).addFeed(feed);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+			TreeItem<String> feedLeaf = new TreeItem<String>(feed.getName());
+			nodeList.get(feed.getFolder().getName()).getChildren().add(feedLeaf);
+			nodeList.get(feed.getFolder().getName()).setExpanded(true);
+		}
+	}
 
+	@FXML
+	public void handleDeleteFeed() {
+		
+	}
 	
 	public void setMain(Main main) {
 		this.main = main;

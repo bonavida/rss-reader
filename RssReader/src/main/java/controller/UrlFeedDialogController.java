@@ -8,39 +8,50 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import model.Folder;
+import model.Feed;
+import rss.RssReader;
 import view.Main;
 
-public class NewFolderDialogController implements Initializable {
-	
+public class UrlFeedDialogController implements Initializable {
+
 	@FXML
-	private TextField folderNameField;
+	private TextField urlField;
 	@FXML
 	private Label errorMessageLbl;
 	
-	private Folder folder;
+	private Feed feed;
 	private Stage dialogStage;
-	private boolean okClicked = false;
 	private Main main;
-
+	private boolean okClicked = false;
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
 		
 	}
 	
-    public void setFolder(Folder folder) {
-    	this.folder = folder;
-    }
+	public Feed getFeed() {
+		return this.feed;
+	}
 	
 	@FXML
 	public void handleOk() {
-		if (main.getFolders().contains(folderNameField.getText())) {
-			errorMessageLbl.setText("La carpeta ya existe.");
+		RssReader reader = new RssReader();
+		try {
+			feed = reader.readFeed(urlField.getText());
+		} catch (Exception ex) {
+			feed = null;
+			ex.printStackTrace();
+		}
+		if (feed != null) {
+			if (main.getFeedManager().getFeed(feed.getName()) != null) {
+				errorMessageLbl.setText("Ya existe un feed con esa URL.");
+			} else {
+				okClicked = true;
+				dialogStage.close();
+			}
 		} else {
-			folder.setName(folderNameField.getText());
-			okClicked = true;
-			dialogStage.close();
+			errorMessageLbl.setText("La URL del feed no es válida.");
 		}
 	}
 	
