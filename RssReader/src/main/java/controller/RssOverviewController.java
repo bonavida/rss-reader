@@ -86,19 +86,21 @@ public class RssOverviewController implements Initializable {
 		listView.getSelectionModel().selectedItemProperty().addListener(
 		        (ObservableValue<? extends String> ov, String old_val, 
 		            String new_val) -> {
-		            	WebEngine webEngine = webView.getEngine();
-		            	Entry entry = fm.getEntry(new_val);
-		            	if (entry != null) {
-		            		String html = "<h1>" + entry.getTitle() + "</h1>";
-		            		html += "<h3>" + entry.getAuthor() + "</h3>";
-		            		html += "<h3>" + entry.getPublicationDate() + "</h3>";
-		            		html += entry.getContent();
-		            		
-		            		webEngine.loadContent(html);    
-		            	} else {
-		            		entries = FXCollections.observableArrayList();
-		        			listView.setItems(entries);
-		            		webEngine.loadContent("");
+		            	if (new_val != null) {
+			            	WebEngine webEngine = webView.getEngine();
+			            	Entry entry = fm.getEntry(new_val);
+			            	if (entry != null) {
+			            		String html = "<h1>" + entry.getTitle() + "</h1>";
+			            		html += "<h3>" + entry.getAuthor() + "</h3>";
+			            		html += "<h3>" + entry.getPublicationDate() + "</h3>";
+			            		html += entry.getContent();
+			            		
+			            		webEngine.loadContent(html);    
+			            	} else {
+			            		entries = FXCollections.observableArrayList();
+			        			listView.setItems(entries);
+			            		webEngine.loadContent("");
+			            	}
 		            	}
 		    });
 	}
@@ -125,7 +127,18 @@ public class RssOverviewController implements Initializable {
 	
 	@FXML
 	public void handleDeleteFolder() {
-		
+		int selectedIndex = tree.getSelectionModel().getSelectedIndex();
+		if (selectedIndex >= 0) {
+			TreeItem<String> node = tree.getSelectionModel().getSelectedItem();
+			if ((node != null) && (fm.getFolder(node.getValue()) != null)) {  // si es carpeta
+				rootNode.getChildren().remove(node);
+				nodeList.remove(node);
+				folders.remove(node.getValue());
+				fm.removeFolder(node.getValue());
+				entries = FXCollections.observableArrayList();
+    			listView.setItems(entries);
+			}
+		}
 	}
 	
 	@FXML
@@ -147,7 +160,18 @@ public class RssOverviewController implements Initializable {
 
 	@FXML
 	public void handleDeleteFeed() {
-		
+		int selectedIndex = tree.getSelectionModel().getSelectedIndex();
+		if (selectedIndex >= 0) {
+			TreeItem<String> node = tree.getSelectionModel().getSelectedItem();
+			if ((node != null) && (fm.getFeed(node.getValue()) != null)) {  // si es feed
+				TreeItem<String> parent = node.getParent();
+				parent.getChildren().remove(node);
+				nodeList.remove(node);
+				fm.getFolder(parent.getValue()).removeFeed(node.getValue());
+				entries = FXCollections.observableArrayList();
+    			listView.setItems(entries);
+			}
+		}
 	}
 	
 	public void setMain(Main main) {
