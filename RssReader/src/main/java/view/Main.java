@@ -2,6 +2,7 @@ package view;
 
 import java.io.IOException;
 
+import controller.MainLayoutController;
 import controller.MoveFeedDialogController;
 import controller.NewFeedDialogController;
 import controller.NewFolderDialogController;
@@ -41,7 +42,12 @@ public class Main extends Application {
 			mainLayout = (BorderPane) loader.load();
 			Scene scene = new Scene(mainLayout);
 			primaryStage.setScene(scene);
+			
+			MainLayoutController controller = loader.getController();
+			controller.setMain(this);
+			
 			primaryStage.show();
+			
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
