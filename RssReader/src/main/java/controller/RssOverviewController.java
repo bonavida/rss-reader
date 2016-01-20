@@ -11,12 +11,13 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import main.FeedManager;
@@ -33,6 +34,10 @@ public class RssOverviewController implements Initializable {
 	private TreeView<String> treeView;
 	@FXML
 	private ListView<String> entryListView;
+	@FXML
+	private Label tagLabel;
+	@FXML
+	private ImageView imageSeen;
 	@FXML
 	private WebView webView = new WebView();
 	@FXML
@@ -83,6 +88,7 @@ public class RssOverviewController implements Initializable {
 		treeView.setShowRoot(false);
 		tagListView.setItems(tags);
 		feedListView.setItems(feeds);
+		tagLabel.setText("");
 		
 		treeView.getSelectionModel().selectedItemProperty()
         	.addListener((v, oldValue, newValue) -> {
@@ -92,6 +98,12 @@ public class RssOverviewController implements Initializable {
         			entryListView.setItems(entries);
         			for (Entry entry : feed.getEntryList())
         				entries.add(entry.getTitle());
+        			String t = "";
+        			for (Tag tag : feed.getTagList()) {
+        				t += tag.getName() + "  ";
+        			}
+        			tagLabel.setText(t);
+        			
         		} else {
         			clearEntryList();
         		}
@@ -104,6 +116,14 @@ public class RssOverviewController implements Initializable {
 			            	WebEngine webEngine = webView.getEngine();
 			            	Entry entry = fm.getEntry(new_val);
 			            	if (entry != null) {
+			            		// TODO
+			            		Image image;
+			            		if (!entry.isSeen()) {
+			            			image = new Image("file:../view/img/closed-eye.png", 0, 0, true, false);
+			            		} else {
+			            			image = new Image("file:../view/img/opened-eye.png", 0, 0, true, false);
+			            		}
+			            		imageSeen.setImage(image);
 			            		String html = "<h1>" + entry.getTitle() + "</h1>";
 			            		html += "<h3>" + entry.getAuthor() + "</h3>";
 			            		html += "<h3>" + entry.getPublicationDate() + "</h3>";
@@ -380,6 +400,11 @@ public class RssOverviewController implements Initializable {
 		tagListView.getSelectionModel().select(0);
 		
 	}
+	
+	@FXML
+	public void handleImageSeen() {
+		//TODO
+	}
 
 	
 	public void clearEntryList() {
@@ -387,6 +412,7 @@ public class RssOverviewController implements Initializable {
 		entryListView.setItems(entries);
 		WebEngine webEngine = webView.getEngine();
 		webEngine.loadContent("");
+		tagLabel.setText("");
 	}
 	
 	public void setMain(Main main) {
