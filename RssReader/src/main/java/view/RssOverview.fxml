@@ -57,9 +57,10 @@
             </AnchorPane>
         </items>
       </SplitPane>
-      <Button layoutX="23.0" layoutY="1.0" mnemonicParsing="false" onAction="#handleNewFolder" text="+" />
-      <Button layoutX="137.0" layoutY="1.0" mnemonicParsing="false" onAction="#handleNewFeed" text="+" />
-      <Button layoutX="61.0" layoutY="1.0" mnemonicParsing="false" onAction="#handleDeleteFolder" prefHeight="26.0" prefWidth="29.0" text="-" />
-      <Button layoutX="174.0" layoutY="1.0" mnemonicParsing="false" onAction="#handleDeleteFeed" prefHeight="26.0" prefWidth="29.0" text="-" />
+      <Button layoutX="14.0" layoutY="1.0" mnemonicParsing="false" onAction="#handleNewFolder" text="+" />
+      <Button layoutX="109.0" layoutY="1.0" mnemonicParsing="false" onAction="#handleNewFeed" text="+" />
+      <Button layoutX="52.0" layoutY="1.0" mnemonicParsing="false" onAction="#handleDeleteFolder" prefHeight="26.0" prefWidth="29.0" text="-" />
+      <Button layoutX="146.0" layoutY="1.0" mnemonicParsing="false" onAction="#handleDeleteFeed" prefHeight="26.0" prefWidth="29.0" text="-" />
+      <Button layoutX="182.0" layoutY="1.0" mnemonicParsing="false" onAction="#handleMoveFeed" text="M" />
    </children>
 </AnchorPane>

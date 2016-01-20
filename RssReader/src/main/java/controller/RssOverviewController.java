@@ -69,7 +69,7 @@ public class RssOverviewController implements Initializable {
 		folderNode.setExpanded(true);
 		tree.setRoot(rootNode);
 		listView.setItems(entries);
-		//tree.setShowRoot(false);
+		tree.setShowRoot(false);
 		
 		tree.getSelectionModel().selectedItemProperty()
         	.addListener((v, oldValue, newValue) -> {
@@ -137,6 +137,8 @@ public class RssOverviewController implements Initializable {
 				fm.removeFolder(node.getValue());
 				entries = FXCollections.observableArrayList();
     			listView.setItems(entries);
+    			WebEngine webEngine = webView.getEngine();
+    			webEngine.loadContent("");
 			}
 		}
 	}
@@ -170,6 +172,33 @@ public class RssOverviewController implements Initializable {
 				fm.getFolder(parent.getValue()).removeFeed(node.getValue());
 				entries = FXCollections.observableArrayList();
     			listView.setItems(entries);
+    			WebEngine webEngine = webView.getEngine();
+    			webEngine.loadContent("");
+			}
+		}
+	}
+	
+	@FXML
+	public void handleMoveFeed() {
+		int selectedIndex = tree.getSelectionModel().getSelectedIndex();
+		if (selectedIndex >= 0) {
+			TreeItem<String> node = tree.getSelectionModel().getSelectedItem();
+			if ((node != null) && (fm.getFeed(node.getValue()) != null)) {  // si es feed
+				main.setFolders(folders);
+								
+				Feed f = fm.getFeed(node.getValue());
+				String newFolderName = main.showMoveFeedDialog();
+				if ((newFolderName != null) && (!newFolderName.equals(f.getFolder().getName()))) {  // si se ha aceptado y no es la misma
+					fm.move(f, newFolderName);
+					TreeItem<String> parent = node.getParent();
+					parent.getChildren().remove(node);
+					nodeList.get(newFolderName).getChildren().add(node);
+					nodeList.get(newFolderName).setExpanded(true);
+					entries = FXCollections.observableArrayList();
+	    			listView.setItems(entries);
+	    			WebEngine webEngine = webView.getEngine();
+	    			webEngine.loadContent("");
+				}
 			}
 		}
 	}

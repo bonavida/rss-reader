@@ -2,6 +2,7 @@ package view;
 
 import java.io.IOException;
 
+import controller.MoveFeedDialogController;
 import controller.NewFeedDialogController;
 import controller.NewFolderDialogController;
 import controller.RssOverviewController;
@@ -72,7 +73,7 @@ public class Main extends Application {
             AnchorPane newFolderDialog = (AnchorPane) loader.load();
             
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("New Folder");
+            dialogStage.setTitle("Nueva carpeta");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(newFolderDialog);
@@ -102,7 +103,7 @@ public class Main extends Application {
 	            AnchorPane newFeedDialog = (AnchorPane) loader.load();
 	            
 	            Stage dialogStage = new Stage();
-	            dialogStage.setTitle("New Feed");
+	            dialogStage.setTitle("Nuevo Feed");
 	            dialogStage.initModality(Modality.WINDOW_MODAL);
 	            dialogStage.initOwner(primaryStage);
 	            Scene scene = new Scene(newFeedDialog);
@@ -138,7 +139,7 @@ public class Main extends Application {
             AnchorPane urlFeedDialog = (AnchorPane) loader.load();
             
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("New Feed");
+            dialogStage.setTitle("Nuevo Feed");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(urlFeedDialog);
@@ -152,6 +153,38 @@ public class Main extends Application {
             
             if (controller.isOkClicked()) {
             	return controller.getFeed();
+            } else {
+            	return null;
+            }
+            
+		} catch (IOException ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
+	
+	public String showMoveFeedDialog() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("MoveFeedDialog.fxml"));
+            AnchorPane newFolderDialog = (AnchorPane) loader.load();
+            
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Mover feed a la carpeta");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(newFolderDialog);
+            dialogStage.setScene(scene);
+            
+            MoveFeedDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setMain(this);
+            controller.setFolderList();
+            
+            dialogStage.showAndWait();
+            
+            if (controller.isOkClicked()) {
+            	return controller.getNewFolderName();
             } else {
             	return null;
             }
