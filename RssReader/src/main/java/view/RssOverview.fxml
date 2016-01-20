@@ -34,10 +34,7 @@
 		                  <content>
 		                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <TextField fx:id="searchField" layoutX="10.0" layoutY="12.0" promptText="Buscar..." AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
-                                    <Button layoutX="191.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleSearchTag" prefHeight="25.0" prefWidth="25.0" AnchorPane.topAnchor="10.0" />
-                                    <Label fx:id="tagErrorMessageLbl" layoutX="10.0" layoutY="51.0" prefHeight="16.0" prefWidth="0.0" textFill="RED" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="51.0" />
-                                    <SplitPane dividerPositions="0.5031055900621118" layoutX="16.0" layoutY="198.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
+                                    <SplitPane dividerPositions="0.5031055900621118" layoutX="16.0" layoutY="198.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="7.0">
                                       <items>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                              <children>
@@ -53,8 +50,6 @@
                                     </SplitPane>
                                     <Button layoutX="14.0" layoutY="567.0" mnemonicParsing="false" onAction="#handleNewTag" text="+" />
                                     <Button layoutX="49.0" layoutY="567.0" mnemonicParsing="false" onAction="#handleDeleteTag" prefHeight="26.0" prefWidth="27.0" text="-" />
-                                    <Button layoutX="135.0" layoutY="567.0" mnemonicParsing="false" onAction="#handleAssignTag" text="A" />
-                                    <Button layoutX="169.0" layoutY="567.0" mnemonicParsing="false" onAction="#handleUnassignTag" text="U" />
                                  </children></AnchorPane>
 		                  </content>
 		                </Tab>

@@ -39,10 +39,6 @@ public class RssOverviewController implements Initializable {
 	private ListView<String> tagListView;
 	@FXML
 	private ListView<String> feedListView;
-	@FXML
-	private TextField searchField;
-	@FXML
-	private Label tagErrorMessageLbl;
 	
 	private TreeItem<String> rootNode;
 	private Map<String, TreeItem<String>> nodeList = new HashMap<String, TreeItem<String>>();
@@ -96,7 +92,6 @@ public class RssOverviewController implements Initializable {
         			entryListView.setItems(entries);
         			for (Entry entry : feed.getEntryList())
         				entries.add(entry.getTitle());
-        			System.out.println(newValue.getValue());
         		} else {
         			clearEntryList();
         		}
@@ -129,10 +124,8 @@ public class RssOverviewController implements Initializable {
 		        			feeds = FXCollections.observableArrayList();
 		        			feedListView.setItems(feeds);
 		        			clearEntryList();
-		        			System.out.println(tag.getAssignedFeedList());
 		        			for (Feed f : tag.getAssignedFeedList())
 		        				feeds.add(f.getName());
-		        			System.out.println(new_val);
 		        		}
 			});
 		
@@ -145,7 +138,6 @@ public class RssOverviewController implements Initializable {
 		        			entryListView.setItems(entries);
 		        			for (Entry entry : feed.getEntryList())
 		        				entries.add(entry.getTitle());
-		        			System.out.println(new_val);
 		        		}
 			});
 	}
@@ -274,7 +266,6 @@ public class RssOverviewController implements Initializable {
 			try {
 				fm.addTag(tag);
 				tags.add(tag.getName());
-				System.out.println(tags);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -375,10 +366,6 @@ public class RssOverviewController implements Initializable {
 		}	
 	}
 	
-	@FXML
-	public void handleSearchTag() {
-		
-	}
 	
 	@FXML
 	public void handleChangeTab() {
