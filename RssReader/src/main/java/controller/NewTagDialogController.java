@@ -8,41 +8,41 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import model.Folder;
+import model.Tag;
 import view.Main;
 
-public class NewFolderDialogController implements Initializable {
-	
+public class NewTagDialogController implements Initializable {
+
 	@FXML
-	private TextField folderNameField;
+	private TextField tagNameField;
 	@FXML
 	private Label errorMessageLbl;
 	
-	private Folder folder;
+	private Tag tag;
 	private Stage dialogStage;
 	private boolean okClicked = false;
 	private Main main;
-
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
 	}
 	
-    public void setFolder(Folder folder) {
-    	this.folder = folder;
-    }
+	public void setTag(Tag tag) {
+		this.tag = tag;
+	}
 	
 	@FXML
 	public void handleOk() {
-		if (main.getFolders().contains(folderNameField.getText())) {
-			errorMessageLbl.setText("La carpeta ya existe.");
+		if (main.getTags().contains(tagNameField.getText())) {
+			errorMessageLbl.setText("La etiqueta ya existe.");
 		} else {
-			folder.setName(folderNameField.getText());
+			tag.setName(tagNameField.getText());
 			okClicked = true;
 			dialogStage.close();
 		}
 	}
-	
+
 	@FXML
 	public void handleCancel() {
 		dialogStage.close();
@@ -59,5 +59,4 @@ public class NewFolderDialogController implements Initializable {
     public void setMain(Main main) {
     	this.main = main;
     }
-
 }

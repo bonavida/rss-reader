@@ -7,14 +7,11 @@
 
 <AnchorPane prefHeight="140.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.NewFolderDialogController">
    <children>
-      <Label layoutX="22.0" layoutY="56.0" text="Nombre" />
+      <Label layoutX="22.0" layoutY="56.0" text="Nombre" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="56.0" />
       <TextField fx:id="folderNameField" layoutX="86.0" layoutY="51.0" prefHeight="26.0" prefWidth="186.0" />
-      <HBox layoutX="131.0" layoutY="100.0" spacing="10.0">
-         <children>
-            <Button mnemonicParsing="false" onAction="#handleOk" text="Aceptar" />
-            <Button mnemonicParsing="false" onAction="#handleCancel" text="Cancelar" />
-         </children>
-      </HBox>
+      <HBox layoutX="131.0" layoutY="100.0" spacing="10.0" />
       <Label fx:id="errorMessageLbl" layoutX="24.0" layoutY="22.0" textFill="RED" />
+      <Button layoutX="77.0" layoutY="99.0" mnemonicParsing="false" onAction="#handleOk" text="Aceptar" />
+      <Button layoutX="156.0" layoutY="99.0" mnemonicParsing="false" onAction="#handleCancel" text="Cancelar" />
    </children>
 </AnchorPane>

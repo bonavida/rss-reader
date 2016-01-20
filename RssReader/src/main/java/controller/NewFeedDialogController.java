@@ -33,7 +33,9 @@ public class NewFeedDialogController implements Initializable {
 		this.feed = feed;
 		feedNameField.setText(feed.getName());
 		folderList.setItems(main.getFolders());
-		folderList.setValue(main.getFolders().get(0));
+		if (main.getFolders().size() != 0) {
+			folderList.setValue(main.getFolders().get(0));
+		}
 
 		folderList.valueProperty().addListener(
 		        (ObservableValue<? extends String> ov, String old_val, String new_val) -> {

@@ -7,45 +7,51 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import view.Main;
 
-public class MoveFeedDialogController implements Initializable {
+public class AssignOrUnassignTagDialogController implements Initializable {
 
 	@FXML
-	private ComboBox<String> folderList;
+	private Label messageLbl;
+	@FXML
+	private ComboBox<String> tagList;
 	
-	private String newFolderName;
+	private String tagName;
 	private Stage dialogStage;
+	private boolean okClicked = false;
 	private Main main;
-	private boolean okClicked;
-	
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
 	}
 	
-	public void setFolderList() {
-		folderList.setItems(main.getFolders());
+	public void setTagList() {
+		tagList.setItems(main.getTags());
 		
-		if (main.getFolders().size() != 0) {
-			folderList.setValue(main.getFolders().get(0));
+		if (main.getTags().size() != 0) {
+			tagList.setValue(main.getTags().get(0));
 		}
-
-		folderList.valueProperty().addListener(
+		
+		tagList.valueProperty().addListener(
 		        (ObservableValue<? extends String> ov, String old_val, String new_val) -> {
-		    folderList.setValue(new_val);
+		    tagList.setValue(new_val);
 		});
 	}
 	
-	public String getNewFolderName() {
-		return this.newFolderName;
+	public void setLabel(String message) {
+		messageLbl.setText(message);
+	}
+	
+	public String getTagName() {
+		return this.tagName;
 	}
 	
 	@FXML
 	public void handleOk() {
-		newFolderName = folderList.getValue();
+		tagName = tagList.getValue();
 		okClicked = true;
 		dialogStage.close();
 	}

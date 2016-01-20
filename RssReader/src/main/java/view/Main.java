@@ -2,10 +2,12 @@ package view;
 
 import java.io.IOException;
 
+import controller.AssignOrUnassignTagDialogController;
 import controller.MainLayoutController;
 import controller.MoveFeedDialogController;
 import controller.NewFeedDialogController;
 import controller.NewFolderDialogController;
+import controller.NewTagDialogController;
 import controller.RssOverviewController;
 import controller.UrlFeedDialogController;
 import javafx.application.Application;
@@ -19,11 +21,13 @@ import javafx.stage.Stage;
 import main.FeedManager;
 import model.Feed;
 import model.Folder;
+import model.Tag;
 
 public class Main extends Application {
 	private Stage primaryStage;
 	private BorderPane mainLayout;
 	private ObservableList<String> folders;
+	private ObservableList<String> tags;
 	private FeedManager fm;
 
 	@Override
@@ -173,13 +177,13 @@ public class Main extends Application {
 		try {
 			FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("MoveFeedDialog.fxml"));
-            AnchorPane newFolderDialog = (AnchorPane) loader.load();
+            AnchorPane moveFeedDialog = (AnchorPane) loader.load();
             
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Mover feed a la carpeta");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
-            Scene scene = new Scene(newFolderDialog);
+            Scene scene = new Scene(moveFeedDialog);
             dialogStage.setScene(scene);
             
             MoveFeedDialogController controller = loader.getController();
@@ -191,6 +195,74 @@ public class Main extends Application {
             
             if (controller.isOkClicked()) {
             	return controller.getNewFolderName();
+            } else {
+            	return null;
+            }
+            
+		} catch (IOException ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
+	
+	public boolean showNewTagDialog(Tag tag) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("NewTagDialog.fxml"));
+            AnchorPane newTagDialog = (AnchorPane) loader.load();
+            
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Nueva etiqueta");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(newTagDialog);
+            dialogStage.setScene(scene);
+            
+            NewTagDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setTag(tag);
+            controller.setMain(this);
+            
+            dialogStage.showAndWait();
+            
+            return controller.isOkClicked();
+            
+		} catch (IOException ex) {
+			ex.printStackTrace();
+			return false;
+		}
+	}
+	
+	public String showAssignOrUnassignTagDialog(String value) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("AssignOrUnassignTagDialog.fxml"));
+            AnchorPane tagDialog = (AnchorPane) loader.load();
+            
+            Stage dialogStage = new Stage();
+            String message = "";
+            if (value.equals("a")) {
+            	dialogStage.setTitle("Asignar etiqueta al feed");
+            	message = "Asignar etiqueta";
+            } else {
+            	dialogStage.setTitle("Quitar etiqueta del feed");
+            	message = "Quitar etiqueta";
+            }
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(tagDialog);
+            dialogStage.setScene(scene);
+            
+            AssignOrUnassignTagDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setMain(this);
+            controller.setTagList();
+            controller.setLabel(message);
+            
+            dialogStage.showAndWait();
+            
+            if (controller.isOkClicked()) {
+            	return controller.getTagName();
             } else {
             	return null;
             }
@@ -219,6 +291,14 @@ public class Main extends Application {
     
     public void setFolders(ObservableList<String> folders) {
     	this.folders = folders;
+    }
+    
+    public ObservableList<String> getTags() {
+    	return tags;
+    }
+    
+    public void setTags(ObservableList<String> tags) {
+    	this.tags = tags;
     }
     
     public FeedManager getFeedManager() {

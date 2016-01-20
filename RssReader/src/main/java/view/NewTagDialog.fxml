@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="140.0" prefWidth="300.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.40" fx:controller="controller.NewTagDialogController">
+   <children>
+      <Label layoutX="23.0" layoutY="53.0" text="Nombre" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="56.0" />
+      <Label fx:id="errorMessageLbl" layoutX="25.0" layoutY="22.0" textFill="RED" />
+      <TextField fx:id="tagNameField" layoutX="93.0" layoutY="51.0" prefHeight="26.0" prefWidth="183.0" />
+      <HBox layoutX="77.0" layoutY="100.0" spacing="10.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#handleOk" text="Aceptar" />
+            <Button mnemonicParsing="false" onAction="#handleCancel" text="Cancelar" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

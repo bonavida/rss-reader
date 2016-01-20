@@ -106,6 +106,7 @@ public class Feed {
 	}
 	
 	public void removeTag(String name) {
+		tagList.get(name).removeAssignedFeed(this);
 		this.tagList.remove(name);
 	}
 	
