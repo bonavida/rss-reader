@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -9,8 +10,10 @@ import java.util.Map;
 import exceptions.NotAllowedOperationException;
 import rss.CustomComparator;
 
-public class Feed {
+public class Feed implements Serializable{
 
+	private static final long serialVersionUID = -1670066042621425421L;
+	
 	private String name;
 	private String url;
 	private Folder folder;
@@ -18,10 +21,11 @@ public class Feed {
 	private Map<String, Tag> tagList = new HashMap<String, Tag>();
 	
 	public Feed() {
-
+		super();
 	}
 	
 	public Feed(String name, String url ) {
+		super();
 		this.name = name;
 		this.url = url;
 		this.folder = new Folder();

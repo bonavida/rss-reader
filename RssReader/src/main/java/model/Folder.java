@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,16 +8,20 @@ import java.util.Map;
 
 import exceptions.NotAllowedOperationException;
 
-public class Folder {
+public class Folder implements Serializable{
 
+	private static final long serialVersionUID = -3577145926007448255L;
+	
 	private String name;
 	private Map<String, Feed> feedList = new HashMap<String, Feed>();;
 	
 	public Folder() {
+		super();
 		
 	}
 	
 	public Folder(String name) {
+		super();
 		this.name = name;
 	}
 	

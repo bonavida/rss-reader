@@ -45,7 +45,9 @@ public class Main extends Application {
 			loader.setLocation(Main.class.getResource("MainLayout.fxml"));
 			mainLayout = (BorderPane) loader.load();
 			Scene scene = new Scene(mainLayout);
+			primaryStage.setOnCloseRequest(e -> exit());
 			primaryStage.setScene(scene);
+			
 			
 			MainLayoutController controller = loader.getController();
 			controller.setMain(this);
@@ -274,6 +276,7 @@ public class Main extends Application {
 	}
 	
 	public void exit() {
+		fm.close();
 		primaryStage.close();
 	}
 	
@@ -312,5 +315,7 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
+	
+	
 	
 }

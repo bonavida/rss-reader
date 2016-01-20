@@ -1,8 +1,11 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Entry {
+public class Entry implements Serializable{
+
+	private static final long serialVersionUID = -2313327649594693846L;
 	
 	private String title;
 	private String author;
@@ -11,10 +14,11 @@ public class Entry {
 	private boolean seen = false;
 	
 	public Entry() {
-		
+		super();		
 	}
 	
 	public Entry(String title, String author, String content, Date publicationDate, boolean seen) {
+		super();
 		this.title = title;
 		this.author = author;
 		this.content = content;

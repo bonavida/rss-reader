@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TreeItem;
@@ -39,6 +40,8 @@ public class RssOverviewController implements Initializable {
 	@FXML
 	private ImageView imageSeen;
 	@FXML
+	private Button seenButton;
+	@FXML
 	private WebView webView = new WebView();
 	@FXML
 	private ListView<String> tagListView;
@@ -53,20 +56,23 @@ public class RssOverviewController implements Initializable {
 	private ObservableList<String> entries = FXCollections.observableArrayList();
 	private RssReader reader;
 	private FeedManager fm;
-	private Feed feed;
+	//private Feed feed;
 	private Main main;
 	
 	
 	public void initialize(URL location, ResourceBundle resources) {
 		rootNode = new TreeItem<>("Carpetas");
+		
 		reader = new RssReader();
 		fm = new FeedManager();
-		
+		//seenButton.setVisible(true);
 		loadData();
 	}
 	
 	public void loadData() {
+		
 		rootNode.setExpanded(true);
+		/*
 		Folder folder = new Folder("Tecnología");
 		try {
 			feed = reader.readFeed("http://www.microsiervos.com/index.xml");
@@ -76,13 +82,21 @@ public class RssOverviewController implements Initializable {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+		*/
 		
-		TreeItem<String> folderNode = new TreeItem<String>(folder.getName());
-		TreeItem<String> feedLeaf = new TreeItem<String>(feed.getName());
-		rootNode.getChildren().add(folderNode);
-		nodeList.put(folder.getName(), folderNode);
-		folderNode.getChildren().add(feedLeaf);
-		folderNode.setExpanded(true);
+		for(Folder folder: fm.getFolderList()){
+			TreeItem<String> folderNode = new TreeItem<String>(folder.getName());
+			rootNode.getChildren().add(folderNode);
+			nodeList.put(folder.getName(), folderNode);
+			folders.add(folder.getName());
+			for(Feed feed: folder.getFeedList()){
+				
+				TreeItem<String> feedLeaf = new TreeItem<String>(feed.getName());				
+				folderNode.getChildren().add(feedLeaf);				
+				
+			}
+			folderNode.setExpanded(true);
+		}
 		treeView.setRoot(rootNode);
 		entryListView.setItems(entries);
 		treeView.setShowRoot(false);
@@ -116,13 +130,16 @@ public class RssOverviewController implements Initializable {
 			            	WebEngine webEngine = webView.getEngine();
 			            	Entry entry = fm.getEntry(new_val);
 			            	if (entry != null) {
-			            		// TODO
+			            		
+			            		//seenButton.setVisible(true);
 			            		Image image;
-			            		if (!entry.isSeen()) {
-			            			image = new Image("file:../view/img/closed-eye.png", 0, 0, true, false);
+			            		if (!entry.isSeen()) {			            			
+			            			image = new Image("file:src/main/java/view/img/closed-eye.png", 0, 0, true, false);
 			            		} else {
-			            			image = new Image("file:../view/img/opened-eye.png", 0, 0, true, false);
+			            			image = new Image("file:src/main/java/view/img/opened-eye.png", 0, 0, true, false);
 			            		}
+			            		entry.setSeen(true);
+			            		
 			            		imageSeen.setImage(image);
 			            		String html = "<h1>" + entry.getTitle() + "</h1>";
 			            		html += "<h3>" + entry.getAuthor() + "</h3>";
@@ -131,6 +148,7 @@ public class RssOverviewController implements Initializable {
 			            		
 			            		webEngine.loadContent(html);    
 			            	} else {
+			            		seenButton.setVisible(false);
 			            		clearEntryList();
 			            	}
 		            	}
@@ -403,7 +421,19 @@ public class RssOverviewController implements Initializable {
 	
 	@FXML
 	public void handleImageSeen() {
-		//TODO
+		String n = entryListView.getSelectionModel().getSelectedItem();
+		Entry entry = fm.getEntry(n);
+    	if (entry != null) {
+    		
+    		entry.setSeen(!entry.isSeen());
+    		Image image;
+    		if (!entry.isSeen()) {			            			
+    			image = new Image("file:src/main/java/view/img/closed-eye.png", 0, 0, true, false);
+    		} else {
+    			image = new Image("file:src/main/java/view/img/opened-eye.png", 0, 0, true, false);
+    		}    		
+    		imageSeen.setImage(image);
+    	}
 	}
 
 	

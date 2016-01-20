@@ -1,18 +1,22 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tag {
+public class Tag implements Serializable{
+
+	private static final long serialVersionUID = 7190998613851133448L;
 	
 	private String name;
 	private List<Feed> assignedFeedList = new ArrayList<Feed>();;
 	
 	public Tag() {
-		
+		super();
 	}
 	
 	public Tag(String name) {
+		super();
 		this.name = name;
 	}
 
