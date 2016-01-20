@@ -73,7 +73,8 @@ public class FeedManager {
 	
 	public void removeTag(String name) {
 		Tag tag = tagList.get(name);
-		for (Feed f : tag.getAssignedFeedList()) {
+		List<Feed> feedList = new ArrayList<Feed>(tag.getAssignedFeedList());
+		for (Feed f : feedList) {
 			f.removeTag(name);
 		}
 		tagList.remove(name);

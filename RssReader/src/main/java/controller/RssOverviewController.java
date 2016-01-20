@@ -366,13 +366,21 @@ public class RssOverviewController implements Initializable {
 		}	
 	}
 	
-	
+
 	@FXML
-	public void handleChangeTab() {
+	public void handleFoldersTab() {
 		if (entryListView != null) {
 			clearEntryList();
 		}
 	}
+	
+	@FXML
+	public void handleTagsTab() {
+		clearEntryList();
+		tagListView.getSelectionModel().select(0);
+		
+	}
+
 	
 	public void clearEntryList() {
 		entries = FXCollections.observableArrayList();
