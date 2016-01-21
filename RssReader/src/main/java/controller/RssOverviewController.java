@@ -65,6 +65,7 @@ public class RssOverviewController implements Initializable {
 		
 		reader = new RssReader();
 		fm = new FeedManager();
+		fm.load();
 		//seenButton.setVisible(true);
 		loadData();
 	}
@@ -89,8 +90,7 @@ public class RssOverviewController implements Initializable {
 			rootNode.getChildren().add(folderNode);
 			nodeList.put(folder.getName(), folderNode);
 			folders.add(folder.getName());
-			for(Feed feed: folder.getFeedList()){
-				
+			for(Feed feed: folder.getFeedList()){				
 				TreeItem<String> feedLeaf = new TreeItem<String>(feed.getName());				
 				folderNode.getChildren().add(feedLeaf);				
 				
@@ -106,6 +106,7 @@ public class RssOverviewController implements Initializable {
 		
 		treeView.getSelectionModel().selectedItemProperty()
         	.addListener((v, oldValue, newValue) -> {
+        		System.out.println("FEED "+fm.getFeed(newValue.getValue()));
         		if ((newValue != null) && (fm.getFeed(newValue.getValue()) != null)) {       			
         			Feed feed = fm.getFeed(newValue.getValue());
         			entries = FXCollections.observableArrayList();
@@ -231,6 +232,7 @@ public class RssOverviewController implements Initializable {
 		Feed feed = main.showNewFeedDialog();
 		if (feed != null) {
 			try {
+				System.out.println("ADD FEED "+feed);//TODO
 				fm.getFolder(feed.getFolder().getName()).addFeed(feed);
 			} catch (Exception ex) {
 				ex.printStackTrace();
@@ -246,6 +248,7 @@ public class RssOverviewController implements Initializable {
 		int selectedIndex = treeView.getSelectionModel().getSelectedIndex();
 		if (selectedIndex >= 0) {
 			TreeItem<String> node = treeView.getSelectionModel().getSelectedItem();
+			System.out.println("DELETE "+node);//TODO
 			if ((node != null) && (fm.getFeed(node.getValue()) != null)) {  // si es feed
 				TreeItem<String> parent = node.getParent();
 				parent.getChildren().remove(node);
@@ -447,5 +450,6 @@ public class RssOverviewController implements Initializable {
 	
 	public void setMain(Main main) {
 		this.main = main;
+		this.main.getPrimaryStage().setOnCloseRequest(e -> fm.save());
 	}
 }

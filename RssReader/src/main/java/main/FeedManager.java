@@ -17,23 +17,14 @@ import model.Folder;
 import model.Tag;
 
 public class FeedManager {
-	//private Map<String, Folder> folderList;
-	//private Map<String, Tag> tagList;
-	private static BTreeMap<String, Folder> folderList;
-	private static BTreeMap<String, Tag> tagList;
-	private static DB db;
+	private static StorageService storage = new StorageService();
+	
+	private Map<String, Folder> folderList;
+	private Map<String, Tag> tagList;
 	
 	public FeedManager() {
-		//folderList = new HashMap<String, Folder>();
-		//tagList = new HashMap<String, Tag>();
-		
-		db = DBMaker.fileDB(new File("rss.db"))
-		        .closeOnJvmShutdown()
-		        .transactionDisable()
-		        .make();
-		
-		folderList = db.treeMap("folderList");
-		tagList = db.treeMap("tagList");
+		folderList = new HashMap<String, Folder>();
+		tagList = new HashMap<String, Tag>();
 	}
 
 	public void addFolder(Folder folder) throws NotAllowedOperationException {
@@ -41,8 +32,7 @@ public class FeedManager {
 			folderList.put(folder.getName(), folder);
 		} else {
 			throw new NotAllowedOperationException("No se admiten carpetas repetidas.");
-		}
-		db.commit();
+		}		
 	}
 	
 	public Folder getFolder(String name) {
@@ -66,7 +56,6 @@ public class FeedManager {
 			folder.removeFeed(f.getName());
 		}
 		folderList.remove(name);
-		db.commit();
 	}
 	
 	public void addTag(Tag tag) throws NotAllowedOperationException {
@@ -75,7 +64,6 @@ public class FeedManager {
 		} else {
 			throw new NotAllowedOperationException("No se admiten etiquetas repetidas.");
 		}
-		db.commit();
 	}
 	
 	public Tag getTag(String name) {
@@ -97,7 +85,6 @@ public class FeedManager {
 			f.removeTag(name);
 		}
 		tagList.remove(name);
-		db.commit();
 	}
 	
 	public boolean move(Feed feed, String newFolderName) {
@@ -105,14 +92,11 @@ public class FeedManager {
 			Folder oldFolder = feed.getFolder();
 			folderList.get(newFolderName).addFeed(feed);
 			oldFolder.removeFeed(feed.getName());
-			db.commit();
 			return true;
 		} catch (NotAllowedOperationException e) {
 			System.out.println(e);
 			return false;
-		}
-		
-		
+		}	
 	}
 	
 	public Feed getFeed(String feedName) {
@@ -139,7 +123,13 @@ public class FeedManager {
 		return null;
 	}
 	
-	public void close(){
-		db.close();
+	public void load(){
+		folderList = storage.getFolderList();
+		tagList = storage.getTagList();
+	}
+	
+	public void save(){
+		storage.saveFolderList(folderList);
+		storage.saveTagList(tagList);
 	}
 }
