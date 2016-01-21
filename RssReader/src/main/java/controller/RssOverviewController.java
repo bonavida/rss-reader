@@ -165,6 +165,11 @@ public class RssOverviewController implements Initializable {
 		        			entryListView.setItems(entries);
 		        			for (Entry entry : feed.getEntryList())
 		        				entries.add(entry.getTitle());
+		        			String t = "";
+		        			for (Tag tag : feed.getTagList()) {
+		        				t += tag.getName() + "  ";
+		        			}
+		        			tagLabel.setText(t);
 		        		}
 			});
 	}
