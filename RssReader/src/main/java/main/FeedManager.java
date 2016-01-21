@@ -45,6 +45,9 @@ public class FeedManager {
 	public void removeFolder(String name) {
 		Folder folder = folderList.get(name);
 		for (Feed f : folder.getFeedList()) {
+			for (Tag t : f.getTagList()) {
+				 t.removeAssignedFeed(f);
+			}
 			folder.removeFeed(f.getName());
 		}
 		folderList.remove(name);
