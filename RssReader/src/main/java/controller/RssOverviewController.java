@@ -26,7 +26,6 @@ import model.Entry;
 import model.Feed;
 import model.Folder;
 import model.Tag;
-import rss.RssReader;
 import view.Main;
 
 public class RssOverviewController implements Initializable {
@@ -54,38 +53,25 @@ public class RssOverviewController implements Initializable {
 	private ObservableList<String> tags = FXCollections.observableArrayList();
 	private ObservableList<String> feeds = FXCollections.observableArrayList();
 	private ObservableList<String> entries = FXCollections.observableArrayList();
-	private RssReader reader;
 	private FeedManager fm;
-	//private Feed feed;
 	private Main main;
 	
 	
 	public void initialize(URL location, ResourceBundle resources) {
 		rootNode = new TreeItem<>("Carpetas");
-		
-		reader = new RssReader();
+		seenButton.setVisible(false);
+
 		fm = new FeedManager();
+		
 		fm.load();
-		//seenButton.setVisible(true);
 		loadData();
 	}
 	
 	public void loadData() {
 		
 		rootNode.setExpanded(true);
-		/*
-		Folder folder = new Folder("Tecnología");
-		try {
-			feed = reader.readFeed("http://www.microsiervos.com/index.xml");
-			fm.addFolder(folder);
-			folders.add(folder.getName());
-			fm.getFolder("Tecnología").addFeed(feed);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		*/
 		
-		for(Folder folder: fm.getFolderList()){
+		for (Folder folder: fm.getFolderList()){
 			TreeItem<String> folderNode = new TreeItem<String>(folder.getName());
 			rootNode.getChildren().add(folderNode);
 			nodeList.put(folder.getName(), folderNode);
@@ -101,6 +87,7 @@ public class RssOverviewController implements Initializable {
 		for(Tag tag: fm.getTagList()){
 			tags.add(tag.getName());
 		}
+		
 		treeView.setRoot(rootNode);
 		entryListView.setItems(entries);
 		treeView.setShowRoot(false);
@@ -135,6 +122,7 @@ public class RssOverviewController implements Initializable {
 			            	WebEngine webEngine = webView.getEngine();
 			            	Entry entry = fm.getEntry(new_val);
 			            	if (entry != null) {
+			            		seenButton.setVisible(true);
 			            		Image image;
 			            		if (!entry.isSeen()) {			            			
 			            			image = new Image("file:src/main/java/view/img/closed-eye.png", 0, 0, true, false);
@@ -150,7 +138,6 @@ public class RssOverviewController implements Initializable {
 			            		
 			            		webEngine.loadContent(html);    
 			            	} else {
-			            		seenButton.setVisible(false);
 			            		clearEntryList();
 			            	}
 		            	}
@@ -198,8 +185,7 @@ public class RssOverviewController implements Initializable {
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
-		}
-		
+		}		
 	}
 	
 	@FXML
@@ -407,7 +393,6 @@ public class RssOverviewController implements Initializable {
             alert.showAndWait();
 		}	
 	}
-	
 
 	@FXML
 	public void handleFoldersTab() {
@@ -439,7 +424,6 @@ public class RssOverviewController implements Initializable {
     		imageSeen.setImage(image);
     	}
 	}
-
 	
 	public void clearEntryList() {
 		entries = FXCollections.observableArrayList();
@@ -447,6 +431,7 @@ public class RssOverviewController implements Initializable {
 		WebEngine webEngine = webView.getEngine();
 		webEngine.loadContent("");
 		tagLabel.setText("");
+		seenButton.setVisible(false);
 	}
 	
 	public void setMain(Main main) {

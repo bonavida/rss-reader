@@ -59,6 +59,9 @@ public class Folder implements Serializable{
 	}
 	
 	public void removeFeed(String name) {
+		for (Tag tag : feedList.get(name).getTagList()) {
+			tag.removeAssignedFeed(feedList.get(name));
+		}
 		feedList.remove(name);
 	}
 }

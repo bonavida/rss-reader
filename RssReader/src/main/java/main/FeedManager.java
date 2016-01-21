@@ -1,14 +1,9 @@
 package main;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.mapdb.BTreeMap;
-import org.mapdb.DB;
-import org.mapdb.DBMaker;
 
 import exceptions.NotAllowedOperationException;
 import model.Entry;
@@ -50,9 +45,6 @@ public class FeedManager {
 	public void removeFolder(String name) {
 		Folder folder = folderList.get(name);
 		for (Feed f : folder.getFeedList()) {
-			for (Tag t : f.getTagList()) {
-				t.removeAssignedFeed(f);
-			}
 			folder.removeFeed(f.getName());
 		}
 		folderList.remove(name);
