@@ -97,6 +97,10 @@ public class RssOverviewController implements Initializable {
 			}
 			folderNode.setExpanded(true);
 		}
+		
+		for(Tag tag: fm.getTagList()){
+			tags.add(tag.getName());
+		}
 		treeView.setRoot(rootNode);
 		entryListView.setItems(entries);
 		treeView.setShowRoot(false);
@@ -106,7 +110,7 @@ public class RssOverviewController implements Initializable {
 		
 		treeView.getSelectionModel().selectedItemProperty()
         	.addListener((v, oldValue, newValue) -> {
-        		System.out.println("FEED "+fm.getFeed(newValue.getValue()));
+        		//TODO System.out.println("FEED "+fm.getFeed(newValue.getValue()));
         		if ((newValue != null) && (fm.getFeed(newValue.getValue()) != null)) {       			
         			Feed feed = fm.getFeed(newValue.getValue());
         			entries = FXCollections.observableArrayList();
@@ -232,7 +236,7 @@ public class RssOverviewController implements Initializable {
 		Feed feed = main.showNewFeedDialog();
 		if (feed != null) {
 			try {
-				System.out.println("ADD FEED "+feed);//TODO
+				//TODO System.out.println("ADD FEED "+feed);//TODO
 				fm.getFolder(feed.getFolder().getName()).addFeed(feed);
 			} catch (Exception ex) {
 				ex.printStackTrace();
@@ -248,7 +252,7 @@ public class RssOverviewController implements Initializable {
 		int selectedIndex = treeView.getSelectionModel().getSelectedIndex();
 		if (selectedIndex >= 0) {
 			TreeItem<String> node = treeView.getSelectionModel().getSelectedItem();
-			System.out.println("DELETE "+node);//TODO
+			//TODO System.out.println("DELETE "+node);//TODO
 			if ((node != null) && (fm.getFeed(node.getValue()) != null)) {  // si es feed
 				TreeItem<String> parent = node.getParent();
 				parent.getChildren().remove(node);

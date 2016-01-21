@@ -48,22 +48,45 @@ public class StorageService {
 	}
 	
 	public void saveFolderList(Map<String, Folder> fldList){		
+		Map<String, Folder> deletedFolderList = new HashMap<String, Folder>();
+		for(String key: folderList.keySet()){
+			deletedFolderList.put(key, folderList.get(key));
+		}
+		deletedFolderList.keySet().removeAll(fldList.keySet());
+		
 		for(String key: fldList.keySet()){
 			folderList.put(key, fldList.get(key));
 			db.commit();
 		}	
+		for(String key: deletedFolderList.keySet()){
+			folderList.remove(key);
+			db.commit();
+		}
 	}
 	
 	public void saveTagList(Map<String, Tag> tgList){
+		
+		Map<String, Tag> deletedTagList = new HashMap<String, Tag>();
+		for(String key: tagList.keySet()){
+			deletedTagList.put(key, tagList.get(key));
+		}
+		deletedTagList.keySet().removeAll(tgList.keySet());
+		
 		for(String key: tgList.keySet()){
 			tagList.put(key, tgList.get(key));
 			db.commit();
-		}	
+		}
+		
+		for(String key: deletedTagList.keySet()){
+			tagList.remove(key);
+			db.commit();
+		}
 	}
 	
 	public void close(){
 		db.close();
 	}
+	
 	
 	
 
