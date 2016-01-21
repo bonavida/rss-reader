@@ -1,16 +1,19 @@
 package test;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.util.Date;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import exceptions.NotAllowedOperationException;
 import main.FeedManager;
+import model.Entry;
 import model.Feed;
 import model.Folder;
 import model.Tag;
-import exceptions.NotAllowedOperationException;
 
 
 public class TestFeedManager {
@@ -188,6 +191,83 @@ public class TestFeedManager {
 		}
 		
 		assertEquals(null, fm.getFolder(folderName));
+	}
+	
+	@Test
+	public void getFeed_ValidFeed_Feed() {
+		String folderName = "Noticias tecnológicas";
+		folder = new Folder(folderName);
+		String feedUrl = "";
+		String feedName = "Barrapunto";
+		feed = new Feed(feedName, feedUrl);
+		
+		try {
+			fm.addFolder(folder);
+			fm.getFolder(folderName).addFeed(feed);
+		} catch (NotAllowedOperationException e) {
+			fail("Exception throwed");
+			System.out.println(e);
+		}
+		
+		assertEquals(feed, fm.getFeed(feedName));
+	}
+	
+	@Test
+	public void getFeed_NotValidFeed_Null() {
+		String folderName = "Noticias tecnológicas";
+		folder = new Folder(folderName);
+		String feedName = "Barrapunto";
+		
+		try {
+			fm.addFolder(folder);
+		} catch (NotAllowedOperationException e) {
+			fail("Exception throwed");
+			System.out.println(e);
+		}
+		
+		assertEquals(null, fm.getFeed(feedName));
+	}
+	
+	@Test
+	public void getEntry_ValidEntry_Entry() {
+		String folderName = "Noticias tecnológicas";
+		folder = new Folder(folderName);
+		String feedUrl = "";
+		String feedName = "Barrapunto";
+		feed = new Feed(feedName, feedUrl);
+		String entryName = "¡Feliz 2016!";
+		Entry entry = new Entry(entryName, "AdminMeneame", "", new Date(), false);
+		
+		try {
+			fm.addFolder(folder);
+			feed.addEntry(entry);
+			fm.getFolder(folderName).addFeed(feed);
+		} catch (NotAllowedOperationException e) {
+			fail("Exception throwed");
+			System.out.println(e);
+		}
+		
+		assertEquals(entry, fm.getEntry(entryName));
+	}
+	
+	@Test
+	public void getEntry_NotValidEntry_Null() {
+		String folderName = "Noticias tecnológicas";
+		folder = new Folder(folderName);
+		String feedUrl = "";
+		String feedName = "Barrapunto";
+		feed = new Feed(feedName, feedUrl);
+		String entryName = "¡Feliz 2016!";
+		
+		try {
+			fm.addFolder(folder);
+			fm.getFolder(folderName).addFeed(feed);
+		} catch (NotAllowedOperationException e) {
+			fail("Exception throwed");
+			System.out.println(e);
+		}
+		
+		assertEquals(null, fm.getEntry(entryName));
 	}
 	
 }

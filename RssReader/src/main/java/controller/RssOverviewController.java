@@ -131,17 +131,14 @@ public class RssOverviewController implements Initializable {
 			            	WebEngine webEngine = webView.getEngine();
 			            	Entry entry = fm.getEntry(new_val);
 			            	if (entry != null) {
-			            		
-			            		//seenButton.setVisible(true);
 			            		Image image;
 			            		if (!entry.isSeen()) {			            			
 			            			image = new Image("file:src/main/java/view/img/closed-eye.png", 0, 0, true, false);
 			            		} else {
 			            			image = new Image("file:src/main/java/view/img/opened-eye.png", 0, 0, true, false);
 			            		}
-			            		entry.setSeen(true);
-			            		
 			            		imageSeen.setImage(image);
+			            		
 			            		String html = "<h1>" + entry.getTitle() + "</h1>";
 			            		html += "<h3>" + entry.getAuthor() + "</h3>";
 			            		html += "<h3>" + entry.getPublicationDate() + "</h3>";
