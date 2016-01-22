@@ -3,7 +3,6 @@ package view;
 import java.io.IOException;
 
 import controller.AssignOrUnassignTagDialogController;
-import controller.MainLayoutController;
 import controller.MoveFeedDialogController;
 import controller.NewFeedDialogController;
 import controller.NewFolderDialogController;
@@ -36,7 +35,6 @@ public class Main extends Application {
 		this.primaryStage.setTitle("RssReader");
 		
 		initMainLayout();
-		showRssOverview();
 	}
 	
 	public void initMainLayout() {
@@ -45,14 +43,10 @@ public class Main extends Application {
 			loader.setLocation(Main.class.getResource("MainLayout.fxml"));
 			mainLayout = (BorderPane) loader.load();
 			Scene scene = new Scene(mainLayout);
-			//primaryStage.setOnCloseRequest(e -> exit());
 			primaryStage.setScene(scene);
-			
-			
-			MainLayoutController controller = loader.getController();
-			controller.setMain(this);
-			
 			primaryStage.show();
+			
+			showRssOverview();
 			
 		} catch (IOException ex) {
 			ex.printStackTrace();
